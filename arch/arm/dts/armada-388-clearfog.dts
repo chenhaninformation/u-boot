@@ -121,30 +121,35 @@
 					#gpio-cells = <2>;
 					reg = <0x20>;
 
-					pcie1_0_clkreq {
-						gpio-hog;
-						gpios = <0 GPIO_ACTIVE_LOW>;
-						input;
-						line-name = "pcie1.0-clkreq";
-					};
-					pcie1_0_w_disable {
-						gpio-hog;
-						gpios = <3 GPIO_ACTIVE_LOW>;
-						output-low;
-						line-name = "pcie1.0-w-disable";
-					};
-					pcie2_0_clkreq {
-						gpio-hog;
-						gpios = <4 GPIO_ACTIVE_LOW>;
-						input;
-						line-name = "pcie2.0-clkreq";
-					};
-					pcie2_0_w_disable {
-						gpio-hog;
-						gpios = <7 GPIO_ACTIVE_LOW>;
-						output-low;
-						line-name = "pcie2.0-w-disable";
-					};
+          //new
+					//pcie0_0_clkreq {
+					//	gpio-hog;
+					//	gpios = <1 GPIO_ACTIVE_LOW>;
+					//	input;
+					//	line-name = "pcie1.0-clkreq";
+					//};
+
+					//pcie1_0_clkreq {
+					//	gpio-hog;
+					//	gpios = <0 GPIO_ACTIVE_LOW>;
+					//	input;
+					//	line-name = "pcie1.0-clkreq";
+					//};
+					//pcie2_0_clkreq {
+					//	gpio-hog;
+					//	gpios = <4 GPIO_ACTIVE_LOW>;
+					//	input;
+					//	line-name = "pcie2.0-clkreq";
+					//};
+
+          ////new
+					//pcie3_0_clkreq {
+					//	gpio-hog;
+					//	gpios = <0 GPIO_ACTIVE_LOW>;
+					//	input;
+					//	line-name = "pcie1.0-clkreq";
+					//};
+
 					usb3_ilimit {
 						gpio-hog;
 						gpios = <5 GPIO_ACTIVE_LOW>;
@@ -325,18 +330,30 @@
 
 		pcie-controller {
 			status = "okay";
+      //new
+			pcie@1,0 {
+				/* Port 1, Lane 0. CONN3, nearest power. */
+				//reset-gpios = <&expander0 1 GPIO_ACTIVE_LOW>;
+				status = "okay";
+			};
 			/*
 			 * The two PCIe units are accessible through
 			 * the mini-PCIe connectors on the board.
 			 */
 			pcie@2,0 {
 				/* Port 1, Lane 0. CONN3, nearest power. */
-				reset-gpios = <&expander0 1 GPIO_ACTIVE_LOW>;
+				//reset-gpios = <&expander0 1 GPIO_ACTIVE_LOW>;
 				status = "okay";
 			};
 			pcie@3,0 {
 				/* Port 2, Lane 0. CONN2, nearest CPU. */
-				reset-gpios = <&expander0 2 GPIO_ACTIVE_LOW>;
+				//reset-gpios = <&expander0 2 GPIO_ACTIVE_LOW>;
+				status = "okay";
+			};
+      //new
+			pcie@4,0 {
+				/* Port 1, Lane 0. CONN3, nearest power. */
+				//reset-gpios = <&expander0 1 GPIO_ACTIVE_LOW>;
 				status = "okay";
 			};
 		};
