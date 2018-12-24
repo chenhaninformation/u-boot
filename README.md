@@ -20,10 +20,7 @@ ESPRESSObin Boot Mode
 
 ESPRESSObin have a BOOT ROM on chip, which will support the SoC boot from
 different devices by setting up the three jumper descripted
-[here](http://wiki.espressobin.net/tiki-index.php?page=Bootloader+recovery+via+UART
-	"Build From Source - Bootloader") and
-[here](ftp://downloads.globalscaletechnologies.com/Downloads/Espressobin/ESPRESSObin-V5-QuickStartGuide-170622.pdf
-	"Globalscale's ESPRESSObin Quick Start Guide").
+[here](http://wiki.espressobin.net/tiki-index.php?page=Bootloader+recovery+via+UART "Build From Source - Bootloader").
 
 Here is a brief table shown the first boot devices controled by those three
 jumpers:
