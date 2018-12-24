@@ -134,8 +134,9 @@ As mentioned above, one single **u-boot.bin** can not boot the board, the
 output of U-boot **u-boot.bin** should (MUST?) be wrapper by
 ARM-Trusted-Firmware.
 
-How to wrapper **u-boot.bin** using ATF? please follow the build instruction
-at [ChenHan ATF][ChenHan ATF] branch
+How to wrapper **u-boot.bin** using ATF?
+
+Please follow the build instruction at [ChenHan ATF][ChenHan ATF] branch
 [atf-v1.3-armada-17.10-ch-dev][atf-v1.3-armada-17.10-ch-dev].
 
 The README.md file have some information you may needed.
@@ -147,19 +148,19 @@ TODO
 
 *Copyright (C) 2018, Hunan ChenHan Information Technology Co., Ltd. All rights reserved.*
 
-[U-boot]:				https://github.com/u-boot/u-booti "Das U-Boot"
+[U-boot]:				https://github.com/u-boot/u-boot "Das U-Boot"
 [Marvell U-boot]:			https://github.com/MarvellEmbeddedProcessors/u-boot-marvell "Marvell Armada U-Boot"
-[u-boot-2017.03-armada-17.10]:		https://github.com/MarvellEmbeddedProcessors/u-boot-marvell/tree/u-boot-2017.03-armada-17.10
+[u-boot-2017.03-armada-17.10]:		https://github.com/MarvellEmbeddedProcessors/u-boot-marvell/tree/u-boot-2017.03-armada-17.10 "u-boot-2017.03-armada-17.10"
 
 [ATF (ARM Trusted Firmware)]:		https://github.com/ARM-software/arm-trusted-firmware "ARM Trusted Firmware"
 [Marvell ATF]:				https://github.com/MarvellEmbeddedProcessors/atf-marvell "Marvell Armada ATF"
-[atf-v1.3-armada-17.10]:		https://github.com/MarvellEmbeddedProcessors/atf-marvell/tree/atf-v1.3-armada-17.10
-[ChenHan ATF]:				https://github.com/chenhaninformation/arm-trusted-firmware
-[atf-v1.3-armada-17.10-ch-dev]:		https://github.com/chenhaninformation/arm-trusted-firmware/tree/atf-v1.3-armada-17.10-ch-dev
+[atf-v1.3-armada-17.10]:		https://github.com/MarvellEmbeddedProcessors/atf-marvell/tree/atf-v1.3-armada-17.10 "atf-v1.3-armada-17.10"
+[ChenHan ATF]:				https://github.com/chenhaninformation/arm-trusted-firmware "ChenHan ATF"
+[atf-v1.3-armada-17.10-ch-dev]:		https://github.com/chenhaninformation/arm-trusted-firmware/tree/atf-v1.3-armada-17.10-ch-dev "atf-v1.3-armada-17.10-ch-dev"
 
 [Build From Source - Toolchain]:	http://wiki.espressobin.net/tiki-index.php?page=Build+From+Source+-+Toolchain "Build From Source - Toolchain"
 [Build From Source - Bootloader]:	http://wiki.espressobin.net/tiki-index.php?page=Bootloader+recovery+via+UART "Build From Source - Bootloader"
 
-[configs include directory]:		./include/configs/
-[mvebu_armada-37xx.h]:			./include/configs/mvebu_armada-37xx.h
-[mvebu_armada-common.h]:		./include/configs/mvebu_armada-common.h
+[configs include directory]:		./include/configs/ "./include/configs/"
+[mvebu_armada-37xx.h]:			./include/configs/mvebu_armada-37xx.h "mvebu_armada-37xx.h"
+[mvebu_armada-common.h]:		./include/configs/mvebu_armada-common.h "mvebu_armada-common.h"
