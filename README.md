@@ -118,7 +118,7 @@ Command line interface -->
 				eMMC flash boot (CONFIG_MVEBU_MMC_BOOT)
 ```
 After config the boot device, more configs are selected in file
-[here](/include/config/mvebu_armada-common.h) by those two ***CONFIG_***
+[here](/include/configs/mvebu_armada-common.h) by those two ***CONFIG_***
 including where to store the u-boot environment.
 
 The default boot device is boot from SPI NOR flash, the SPI flash layout may
