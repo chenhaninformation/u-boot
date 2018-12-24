@@ -1,50 +1,68 @@
 U-boot for ESPRESSObin
 ======================
 
-This branch is for espressobin board and it is based on marvell u-boot branch
-"u-boot-2017.03-armada-17.10", please refer to:
-https://github.com/MarvellEmbeddedProcessors/u-boot-marvell
-checkout to branch "u-boot-2017.03-armada-17.10"
+This branch of U-boot is for ESPRESSObin board and it is based on
+[Marvell U-boot](https://github.com/MarvellEmbeddedProcessors/u-boot-marvell "Marvell Armada U-Boot") branch
+[u-boot-2017.03-armada-17.10](https://github.com/MarvellEmbeddedProcessors/u-boot-marvell/tree/u-boot-2017.03-armada-17.10).
 
-You can find documentation at both the mainline of u-boot and most recent
-release of marvell u-boot above, we only provice some of the build steps and
-some note.
+We only provice the build steps and some notes.
+You can find documentation at both the mainline of
+[U-boot](https://github.com/u-boot/u-booti "Das U-Boot") and most recent release of
+[Marvell U-boot](https://github.com/MarvellEmbeddedProcessors/u-boot-marvell "Marvell Armada U-Boot").
+
+******
 
 Note
 ====
 
-1. ESPRESSObin have a BOOT ROM on chip, which will support the SoC boot from
-different devices by setting the jumpper descripted in:
-http://wiki.espressobin.net/tiki-index.php?page=Bootloader+recovery+via+UART
+ESPRESSObin Boot Mode
+---------------------
 
-The BOOT ROM can boot the SoC from storage device below:
-a.Serial NOR Flash Download Mode	(J10:1-2, J3:2-3, J11:2-3)
-b.eMMC Download Mode			(J10:2-3, J3:1-2, J11:2-3)
-c.eMMC Alternate Download Mode		(J10:1-2, J3:1-2, J11:2-3)
-d.SATA Download Mode			(J10:2-3, J3:2-3, J11:1-2)
-e.Serial NAND Flash Download Mode	(J10:1-2, J3:2-3, J11:1-2)
-f.UART Mode				(J10:2-3, J3:1-2, J11:1-2)
+ESPRESSObin have a BOOT ROM on chip, which will support the SoC boot from
+different devices by setting up the three jumper descripted
+[here](http://wiki.espressobin.net/tiki-index.php?page=Bootloader+recovery+via+UART
+	"Build From Source - Bootloader") and
+[here](ftp://downloads.globalscaletechnologies.com/Downloads/Espressobin/ESPRESSObin-V5-QuickStartGuide-170622.pdf
+	"Globalscale's ESPRESSObin Quick Start Guide").
 
-2. This u-boot compiled binary shoud wrapper by ATF (ARM Trusted Firmware) in
-order to boot.
+Here is a brief table shown the first boot devices controled by those three
+jumpers:
 
-The ATF documentation can be find here:
-https://github.com/chenhaninformation/arm-trusted-firmware
+| ESPRESSObin boot mode           |  J10  |  J3   |  J11  |
+| :------------------------------ | :---: | :---: | :---: |
+| Serial NOR Flash Download Mode  |  1-2  |  2-3  |  2-3  |
+| eMMC Download Mode              |  2-3  |  1-2  |  2-3  |
+| eMMC Alternate Download Mode    |  1-2  |  1-2  |  2-3  |
+| SATA Download Mode              |  2-3  |  2-3  |  1-2  |
+| Serial NAND Flash Download Mode |  1-2  |  2-3  |  1-2  |
+| UART Mode                       |  2-3  |  1-2  |  1-2  |
 
-3. After carefully tested, only marvell u-boot branch
-"u-boot-2017.03-armada-17.10" work with marvell ATF branch
-"atf-v1.3-armada-17.10". In order to reduce workload, we decide to working on
-those two old branch rather than fix boot issue by using the most recent
-release of u-boot and ATF.
+Boot requirement
+----------------
 
-4. Using the branches above is not enough, compile the u-boot with Ubuntu 18.04
-default gcc (gcc version 7) will cause the u-boot to access the wrong memory
-region reserved by ATF. By carefully tested, compile the u-boot with gcc-5 can
-solve the problem.
+This U-boot compiled output binary shoud (MUST?) wrapper by the
+[ATF (ARM Trusted Firmware)](https://github.com/ARM-software/arm-trusted-firmware "ARM Trusted Firmware")
+in order to boot.
 
-WARNING: Tested ONLY using Linaro release gcc, with version of gcc-5.2 and
-gcc-5.5. Never tested with original gcc-5. Tested compiler can be find here:
-http://wiki.espressobin.net/tiki-index.php?page=Build+From+Source+-+Toolchain
+After carefully tested, we find that only
+[Marvell U-boot](https://github.com/MarvellEmbeddedProcessors/u-boot-marvell "Marvell Armada U-Boot") branch
+[u-boot-2017.03-armada-17.10](https://github.com/MarvellEmbeddedProcessors/u-boot-marvell/tree/u-boot-2017.03-armada-17.10) wrappered by
+[Marvell ATF](https://github.com/MarvellEmbeddedProcessors/atf-marvell "Marvell Armada ATF") branch
+[atf-v1.3-armada-17.10](https://github.com/MarvellEmbeddedProcessors/atf-marvell/tree/atf-v1.3-armada-17.10)
+can boot normally without crash the system.
+
+In order to **reduce workload**, we decide to working on those two old
+branches rather than fix booting issue by using the most recent release of
+U-boot and ATF.
+
+Using the branches above is just a beginning, compile the U-boot with Ubuntu
+18.04 default gcc (gcc version 7) will cause the U-boot to access the memory
+region reserved by ATF. By carefully tested, **compile the U-boot with gcc-5
+can solve the problem**.
+
+***WARNING***: Tested ONLY using Linaro release gcc with version of gcc-5.2
+and gcc-5.5. The original gcc-5 was never tested. Tested compiler can be find
+[here](http://wiki.espressobin.net/tiki-index.php?page=Build+From+Source+-+Toolchain "Build From Source - Toolchain").
 
 Build Step
 ==========
@@ -53,57 +71,64 @@ Build U-boot
 ------------
 
 Normal compile step are shown in follow:
+```
 1. export CROSS_COMPILE=/path/to/aarch64/compiler
 2. make defconfig
 3. make
+```
 
 While in our case, we need download or install gcc-5 instead of using the
 default conpiler from Debian/Ubuntu.
 
-Note: Put the $PATH at the end of the sentence, make sure we cover the default
-finding path /usr/bin.
-
+**Note**: Put the $PATH at the end of the sentence, make sure we cover the
+default finding path /usr/bin.
+```
 1. export PATH=/path/to/linaro-gcc-5/bin:$PATH
 2. export CROSS_COMPILE=aarch64-linux-gnu-
 3. make mvebu_espressobin-88f3720_defconfig # espressobin default config file
 4. make DEVICE_TREE=armada-3720-espressobin
+```
 
-Then you will see a u-boot.bin came out at the top directory of u-boot.
-Any fether reading please refer to:
-http://wiki.espressobin.net/tiki-index.php?page=Build+From+Source+-+Bootloader
+Then you will see a *u-boot.bin* came out at the top directory of U-boot.
+Any fether reading of how to compile the U-boot of ESPRESSObin board, please
+refer to [here](http://wiki.espressobin.net/tiki-index.php?page=Build+From+Source+-+Bootloader).
 
 Config U-boot
 -------------
 
-1. Some of the CONFIG_* is NOT generated by kbuid system, but in a include *.h
-file in directory include/configs/*.h.
+Some of the ***CONFIG_*** is **NOT** generated by Kbuild system, but in the
+[include directory](/include/configs/), and the build process will include
+those files in order to finish the build process.
 
-2. During build process, file include/configs/mvebu_armada-37xx.h will be
-included and merged into .config with defconfig file. Some config will not be
-configured via kbuild, you should edit file mvebu_armada-37xx.h manually, and
-this file will include another file include/config/mvebu_armada-common.h.
+During build process, file ***include/configs/mvebu_armada-37xx.h*** will be
+included which will include another file
+***include/configs/mvebu_armada-common.h***, they will merged into
+***.config*** file. Some configs will not be configured via Kbuild, you should
+edit [this file](/include/configs/mvebu_armada-37xx.h) manually in order to
+config the build behaviour.
 
-3. Boot device need be specified during build process, and it can be selected
-via kbuild process:
-
+Boot device need be specified during build process, and it can be selected
+via Kbuild process:
+```
 Command line interface -->
 	Misc commands -->
 		MVEBU commands -->
 			Flash for image -->
 				SPI flash boot (CONFIG_MVEBU_SPI_BOOT)
 				eMMC flash boot (CONFIG_MVEBU_MMC_BOOT)
-
+```
 After config the boot device, more configs are selected in file
-include/config/mvebu_armada-common.h by those two CONFIG_* including where to
-store the u-boot environment.
+[here](/include/config/mvebu_armada-common.h) by those two ***CONFIG_***
+including where to store the u-boot environment.
 
 The default boot device is boot from SPI NOR flash, the SPI flash layout may
 look like this:
-
+```
 -----------------------------------------------------------------
 |               U-boot Image                    |   U-boot ENV  |
 -----------------------------------------------------------------
 0x0                                             0x3f0000        0x400000
+```
 
 Where the 0x400000 is the size of the SPI NOR flash, which set default as 4M
 byte.
@@ -111,4 +136,4 @@ byte.
 TODO
 ====
 
-1. Add link to ATF.
+Add link to ATF.
