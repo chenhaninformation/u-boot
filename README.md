@@ -5,7 +5,7 @@ This branch of U-boot is for ESPRESSObin board and it is based on
 [Marvell U-boot](https://github.com/MarvellEmbeddedProcessors/u-boot-marvell "Marvell Armada U-Boot") branch
 [u-boot-2017.03-armada-17.10](https://github.com/MarvellEmbeddedProcessors/u-boot-marvell/tree/u-boot-2017.03-armada-17.10).
 
-We only provice the build steps and some notes.
+We only provide the build steps and some notes.
 You can find documentation at both the mainline of
 [U-boot](https://github.com/u-boot/u-booti "Das U-Boot") and most recent release of
 [Marvell U-boot](https://github.com/MarvellEmbeddedProcessors/u-boot-marvell "Marvell Armada U-Boot").
