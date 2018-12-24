@@ -64,32 +64,6 @@ and gcc-5.5. The original gcc-5 was never tested. Tested compiler can be find
 Build Step
 ==========
 
-Build U-boot
-------------
-
-Normal compile step are shown in follow:
-```
-1. export CROSS_COMPILE=/path/to/aarch64/compiler
-2. make defconfig
-3. make
-```
-
-While in our case, we need download or install gcc-5 instead of using the
-default conpiler from Debian/Ubuntu.
-
-**Note**: Put the $PATH at the end of the sentence, make sure we cover the
-default finding path /usr/bin.
-```
-1. export PATH=/path/to/linaro-gcc-5/bin:$PATH
-2. export CROSS_COMPILE=aarch64-linux-gnu-
-3. make mvebu_espressobin-88f3720_defconfig # espressobin default config file
-4. make DEVICE_TREE=armada-3720-espressobin
-```
-
-Then you will see a **u-boot.bin** came out at the top directory of U-boot.
-Any fether reading of how to compile the U-boot of ESPRESSObin board, please
-refer to [here](http://wiki.espressobin.net/tiki-index.php?page=Build+From+Source+-+Bootloader).
-
 Config U-boot
 -------------
 
@@ -129,6 +103,45 @@ look like this:
 
 Where the 0x400000 is the size of the SPI NOR flash, which set default as 4M
 byte.
+
+Build U-boot
+------------
+
+Normal compile step are shown in follow:
+```
+1. export CROSS_COMPILE=/path/to/aarch64/compiler
+2. make defconfig
+3. make
+```
+
+While in our case, we need download or install gcc-5 instead of using the
+default conpiler from Debian/Ubuntu.
+
+**Note**: Put the $PATH at the end of the sentence, make sure we cover the
+default finding path /usr/bin.
+```
+1. export PATH=/path/to/linaro-gcc-5/bin:$PATH
+2. export CROSS_COMPILE=aarch64-linux-gnu-
+3. make mvebu_espressobin-88f3720_defconfig # espressobin default config file
+4. make DEVICE_TREE=armada-3720-espressobin
+```
+
+Then you will see a **u-boot.bin** came out at the top directory of U-boot.
+Any fether reading of how to compile the U-boot of ESPRESSObin board, please
+refer to [here](http://wiki.espressobin.net/tiki-index.php?page=Build+From+Source+-+Bootloader).
+
+After Build
+===========
+
+As mentioned above, one single **u-boot.bin** can not boot the board, the
+output of U-boot **u-boot.bin** should (MUST?) be wrapper by
+ARM-Trusted-Firmware.
+
+How to wrapper **u-boot.bin** using ATF? please follow the build instruction
+at [ChenHan ATF](https://github.com/chenhaninformation/arm-trusted-firmware)
+branch [atf-v1.3-armada-17.10-ch-dev](https://github.com/chenhaninformation/arm-trusted-firmware/tree/atf-v1.3-armada-17.10-ch-dev).
+
+The README.md file have some information you may needed.
 
 TODO
 ====
