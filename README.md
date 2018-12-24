@@ -135,6 +135,4 @@ TODO
 
 ******
 
-Copyright (c) 2018, Ding Tao <miyatsu@qq.com>.
-Copyright (c) 2018, Hunan ChenHan Information Technology Co., Ltd.
-All rights reserved.
+Copyright (c) 2018, Hunan ChenHan Information Technology Co., Ltd. All rights reserved.
