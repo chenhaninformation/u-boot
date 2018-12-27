@@ -104,24 +104,31 @@ byte.
 Build U-boot
 ------------
 
-Normal compile step are shown in follow:
-```
-1. export CROSS_COMPILE=/path/to/aarch64/compiler
-2. make defconfig
-3. make
-```
+### Set correct compiler
 
-While in our case, we need download or install gcc-5 instead of using the
-default conpiler from Debian/Ubuntu.
+We need download or install gcc-5 instead of using the default conpiler from
+Debian/Ubuntu.
 
-**Note**: Put the $PATH at the end of the sentence, make sure we cover the
-default finding path /usr/bin.
+1. Download [Linaro gcc 5.5.0][Linaro gcc]
+2. Unpack it to current directory, using command:
 ```
-1. export PATH=/path/to/linaro-gcc-5/bin:$PATH
+tar xvf gcc-linaro-5.5.0-2017.10-x86_64_aarch64-linux-gnu.tar.xz
+```
+you will see a direcotry gcc-linaro-5.5.0-2017.10-x86\_64\_aarch64-linux-gnu
+in current direcotry that contains all files use to compile the U-boot.
+
+### Start to build
+
+```
+1. export PATH=/path/to/your/gcc-linaro-5.5.0/bin:$PATH
 2. export CROSS_COMPILE=aarch64-linux-gnu-
-3. make mvebu_espressobin-88f3720_defconfig # espressobin default config file
+3. make mvebu_espressobin-88f3720_defconfig
 4. make DEVICE_TREE=armada-3720-espressobin
 ```
+**Note**: Put the $PATH at the end of the sentence, make sure we cover the
+default finding path /usr/bin, you can verify it by type:
+**which aarch64-linux-gnu-gcc** to see if we successfully change the default
+compiler to what we need.
 
 Then you will see a **u-boot.bin** came out at the top directory of U-boot.
 Any fether reading of how to compile the U-boot of ESPRESSObin board, please
@@ -157,6 +164,8 @@ TODO
 [atf-v1.3-armada-17.10]:		https://github.com/MarvellEmbeddedProcessors/atf-marvell/tree/atf-v1.3-armada-17.10 "atf-v1.3-armada-17.10"
 [ChenHan ATF]:				https://github.com/chenhaninformation/arm-trusted-firmware "ChenHan ATF"
 [atf-v1.3-armada-17.10-ch-dev]:		https://github.com/chenhaninformation/arm-trusted-firmware/tree/atf-v1.3-armada-17.10-ch-dev "atf-v1.3-armada-17.10-ch-dev"
+
+[Linaro gcc]:				https://releases.linaro.org/components/toolchain/binaries/5.5-2017.10/aarch64-linux-gnu/gcc-linaro-5.5.0-2017.10-x86_64_aarch64-linux-gnu.tar.xz
 
 [Build From Source - Toolchain]:	http://wiki.espressobin.net/tiki-index.php?page=Build+From+Source+-+Toolchain "Build From Source - Toolchain"
 [Build From Source - Bootloader]:	http://wiki.espressobin.net/tiki-index.php?page=Bootloader+recovery+via+UART "Build From Source - Bootloader"
