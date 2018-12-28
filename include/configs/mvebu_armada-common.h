@@ -141,6 +141,8 @@
 #define CONFIG_ENV_SECT_SIZE		(64 << 10) /* 64KiB sectors */
 #if defined(CONFIG_ENV_IS_IN_NAND) || defined(CONFIG_ENV_IS_IN_SPI_NAND)
 #define CONFIG_ENV_OFFSET		0x400000
+#elif defined(CONFIG_ENV_IS_IN_MMC)
+#define CONFIG_ENV_OFFSET		(0x200000 - CONFIG_ENV_SIZE)
 #else
 #define CONFIG_ENV_OFFSET		(0x400000 - CONFIG_ENV_SIZE)
 #endif
