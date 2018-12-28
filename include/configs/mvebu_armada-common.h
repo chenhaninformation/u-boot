@@ -119,6 +119,10 @@
 #define CONFIG_SF_DEFAULT_MODE		SPI_MODE_0
 #define CONFIG_ENV_SPI_MODE		CONFIG_SF_DEFAULT_MODE
 
+/* eMMC Flash configuration */
+#define CONFIG_SUPPORT_EMMC_BOOT	/* Enable boot from eMMC */
+#define CONFIG_SUPPORT_EMMC_RPMB	/* Enable RPMB to save SN number */
+
 /* Environment in SPI NOR flash */
 #ifdef CONFIG_MVEBU_SPI_BOOT
 #define CONFIG_ENV_IS_IN_SPI_FLASH
