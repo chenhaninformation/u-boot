@@ -56,6 +56,27 @@ can solve the problem**.
 and gcc-5.5. The original gcc-5 was never tested. Tested compiler can be find
 [here][Build From Source - Toolchain].
 
+Alter boot flow
+---------------
+
+U-boot need to be designed with boot flow alternate capability, our final
+product have two button on the fuselage, one button on the back is used to
+determining wether we should boot to rescue mode.
+
+Here is some information of how to use GPIO state to alter boot flow in
+U-boot, it is referenced from [EE407v01][EE407v01].
+
+> In U-Boot, there is a gpio command utility to set, clear and read the state
+> of a given GPIO pin. When used to read the state of a GPIO pin, the status
+> is displayed on the console. Unfortunately, the console output cannot be
+> **piped or redirected**. So, to use the status of a GPIO pin, modifications
+> were made to the existing cmd\_gpio.c file to set the status of a GPIO pin
+> in an environment variable.
+
+We will do the same thing to reduce workload by saving environment variable
+using C programming language in file [gpio.c][gpio.c], so the upper layer
+which can check wether we should boot an alternative rescue image.
+
 Build Step
 ==========
 
@@ -173,3 +194,7 @@ TODO
 [configs include directory]:		./include/configs/ "./include/configs/"
 [mvebu_armada-37xx.h]:			./include/configs/mvebu_armada-37xx.h "mvebu_armada-37xx.h"
 [mvebu_armada-common.h]:		./include/configs/mvebu_armada-common.h "mvebu_armada-common.h"
+
+[gpio.c]:				./cmd/gpio.c "gpio.c"
+
+[EE407v01]:				https://www.analog.com/media/en/technical-documentation/application-notes/EE407v01.pdf
