@@ -77,6 +77,14 @@ We will do the same thing to reduce workload by saving environment variable
 using C programming language in file [gpio.c][gpio.c], so the upper layer
 which can check wether we should boot an alternative rescue image.
 
+Upper layer MUST run "gpio input GPIO25" command to make sure U-boot can get
+the newest GPIO state and save it to environmental variable. Upper layer can
+access environmental variable "ch\_reset\_button\_pressed" to check wether
+user pressed the reset button or not.
+
+(1). Pressed: ch\_reset\_button\_pressed = 1
+(2). Not pressed: ch\_reset\_button\_pressed = 0
+
 Build Step
 ==========
 
