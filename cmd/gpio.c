@@ -214,6 +214,33 @@ static int do_gpio(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 		gpio_direction_output(gpio, value);
 	}
 	printf("gpio: pin %s (gpio %i) value is ", str_gpio, gpio);
+
+	/* ChenHan Patch Start */
+	/**
+	 * GPIO MPP2_5 is connect to reset button in the back of the machine,
+	 * we use this button to do "system factory config reset" or "rescue"
+	 * mode entry flag. Unfortunately, shell in U-boot do not support
+	 * output piped or redirected, so we add a patch to set environment
+	 * variable "reset_button_pressed", if this GPIO button is pressed,
+	 * we set this variable to 1, set to 0 if other wise.
+	 *
+	 * Make sure it is the right GPIO.
+	 * */
+	if ((41 == gpio) && (0 == strcmp(str_gpio, "GPIO25"))) {
+		if (value == 1) {
+			/* Not pressed */
+			ret = setenv_ulong("ch_reset_button_pressed", 0);
+			if (ret)
+				printf("WARNING: Unable to save env!!!\n");
+		} else if (value == 0) {
+			/* Pressed */
+			ret = setenv_ulong("ch_reset_button_pressed", 1);
+			if (ret)
+				printf("WARNING: Unable to save env!!!\n");
+		}
+	}
+	/* ChenHan Patch End */
+
 	if (IS_ERR_VALUE(value))
 		printf("unknown (ret=%d)\n", value);
 	else
