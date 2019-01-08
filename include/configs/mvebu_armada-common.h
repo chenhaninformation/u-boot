@@ -68,7 +68,25 @@
 						"$gatewayip:$netmask:$hostname"\
 						":$netdev:none nfsroot="\
 						"$serverip:$rootpath " \
-						"$extra_params"
+						"$extra_params\0"	\
+"ch_need_reset=0\0"							\
+"ch_bootcmd_normal=mmc dev 1; ext4load mmc 1:2 $kernel_addr "		\
+	"$image_name; ext4load mmc 1:2 $fdt_addr $fdt_name; setenv "	\
+	"bootargs $console ch_need_reset=$ch_need_reset "		\
+	"root=/dev/mmcblk0p2 rw rootwait; booti $kernel_addr - "	\
+	"$fdt_addr\0"							\
+"ch_bootcmd_rescue=mmc dev 1; ext4load mmc 1:1 $kernel_addr "		\
+	"$image_name; ext4load mmc 1:1 $fdt_addr $fdt_name; setenv "	\
+	"bootargs $console root=/dev/mmcblk0p1 rw rootwait; booti "	\
+	"$kernel_addr - $fdt_addr\0"					\
+"ch_bootcmd_usb_fat=usb start; fatload usb 0:1 $kernel_addr "		\
+	"$image_name; fatload usb 0:1 $fdt_addr $fdt_name; setenv "	\
+	"botargs $console root=/dev/sda1 rw rootwait; booti "		\
+	"$kernel_addr - $fdt_addr\0"					\
+"ch_bootcmd_net_tftp=gpio input GPIO25\0"				\
+"ch_boot_flows=normal rescue usb_fat net_tftp\0"			\
+"ch_distro_bootcmd=for flow in ${ch_boot_flows}; do run "		\
+	"ch_bootcmd_${flow}; done; reset"
 #define CONFIG_BOOTCOMMAND	"run get_images; run set_bootargs; " \
 				"booti $kernel_addr $ramfs_addr $fdt_addr"
 #define CONFIG_ENV_OVERWRITE	/* ethaddr can be reprogrammed */
