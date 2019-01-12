@@ -69,7 +69,17 @@
 						":$netdev:none nfsroot="\
 						"$serverip:$rootpath " \
 						"$extra_params\0"	\
+"ch_serial_number=01234567\0"						\
+"ch_reset_button_pressed=0\0"						\
+"ch_reboot_button_pressed=0\0"						\
 "ch_need_reset=0\0"							\
+"ch_check_serial_number=mmc dev 0; mmc info; mmc dev 1; mmc info; "	\
+	"saveenv\0"							\
+"ch_check_button=gpio input GPIO25; gpio input GPIO15; "		\
+	"if test $ch_reset_button_pressed=1; "				\
+	"then run ch_bootcmd_usb_fat; fi; "				\
+	"if test $ch_reboot_button_pressed=1; "				\
+	"then run ch_bootcmd_rescue; fi; \0"				\
 "ch_bootcmd_normal=mmc dev 1; ext4load mmc 1:2 $kernel_addr "		\
 	"$image_name; ext4load mmc 1:2 $fdt_addr $fdt_name; setenv "	\
 	"bootargs $console ch_need_reset=$ch_need_reset "		\
@@ -87,8 +97,15 @@
 "ch_boot_flows=normal rescue usb_fat net_tftp\0"			\
 "ch_distro_bootcmd=for flow in ${ch_boot_flows}; do run "		\
 	"ch_bootcmd_${flow}; done; reset"
+#if 0
 #define CONFIG_BOOTCOMMAND	"run get_images; run set_bootargs; " \
 				"booti $kernel_addr $ramfs_addr $fdt_addr"
+#endif
+
+#define CONFIG_BOOTCOMMAND	"run ch_check_serial_number; "
+				"run ch_check_reset; "
+				"run ch_distro_bootcmd"
+
 #define CONFIG_ENV_OVERWRITE	/* ethaddr can be reprogrammed */
 /*
  * For booting Linux, the board info and command line data
