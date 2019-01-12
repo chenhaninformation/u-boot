@@ -224,17 +224,33 @@ static int do_gpio(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 	 * variable "reset_button_pressed", if this GPIO button is pressed,
 	 * we set this variable to 1, set to 0 if other wise.
 	 *
-	 * Make sure it is the right GPIO.
+	 * Also MPP1_5 is connect to reboot button in the front of the
+	 * machine, we use this patch to mark it too. In case of future use.
+	 *
 	 * */
+
+	/* Make sure it is the right GPIO.*/
 	if ((41 == gpio) && (0 == strcmp(str_gpio, "GPIO25"))) {
-		if (value == 1) {
+		if (1 == value) {
 			/* Not pressed */
 			ret = setenv_ulong("ch_reset_button_pressed", 0);
 			if (ret)
 				printf("WARNING: Unable to save env!!!\n");
-		} else if (value == 0) {
+		} else if (0 == value) {
 			/* Pressed */
 			ret = setenv_ulong("ch_reset_button_pressed", 1);
+			if (ret)
+				printf("WARNING: Unable to save env!!!\n");
+		}
+	} else if ((5 == gpio) && (0 == strcmp(str_gpio, "GPIO15"))) {
+		if (1 == value) {
+			/* Not pressed */
+			ret = setenv_ulong("ch_reboot_button_pressed", 0);
+			if (ret)
+				printf("WARNING: Unable to save env!!!\n");
+		} else if (0 == value) {
+			/* Pressed */
+			ret = setenv_ulong("ch_reboot_button_pressed", 1);
 			if (ret)
 				printf("WARNING: Unable to save env!!!\n");
 		}
