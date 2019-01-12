@@ -23,6 +23,46 @@ static void print_mmcinfo(struct mmc *mmc)
 			(mmc->cid[1] >> 24), (mmc->cid[1] >> 16) & 0xff,
 			(mmc->cid[1] >> 8) & 0xff, mmc->cid[1] & 0xff);
 
+	/* ChenHan Patch Start */
+	printf("Serial Number: %x%x%x%x\n", (mmc->cid[2] >> 16) & 0xff,
+			(mmc->cid[2] >> 8) & 0xff, mmc->cid[2] & 0xff,
+			(mmc->cid[3] >> 24) & 0xff);
+
+	/**
+	 * Each SD/eMMC have a CID(Card Identification) rigester, and it
+	 * already have a SN(Serial Number) in it.
+	 *
+	 * We use this SN as board/machine unique number and save it as
+	 * environment variable so Linux kernel can access it.
+	 *
+	 * CID field are shown below:
+	 *
+	 * +-------------------------------------------+
+	 * | Name                  | Width | CID-slice |
+	 * +-----------------------+-------+-----------+
+	 * | Manufacturer ID       |   8   | [127:120] |
+	 * | OEM ID                |  16   | [119:104] |
+	 * | Product Name          |  40   | [103:64]  |
+	 * | Product Revision      |   8   | [63:56]   |
+	 * | Product Serial Number |  32   | [55:24]   |
+	 * | Reserved              |   4   | [23:20]   |
+	 * | Manufacturing Date    |  12   | [19:8]    |
+	 * | CRC7 Checksum         |   7   | [7:1]     |
+	 * | Not used, always 1    |   1   | [0:0]     |
+	 * +-------------------------------------------+
+	 *
+	 * Current we use "Product Serial Number" ONLY, it may have conflict.
+	 * Although we have to mark this as FIXME, but the chance is too
+	 * small, so we decide not to fix this for now.
+	 * */
+	char sn[5];
+	sprintf(sn, "%x%x%x%x", (mmc-cid[2] >> 16) & 0xff,
+			(mmc->cid[2] >> 8) & 0xff, mmc->cid[2] & 0xff,
+			(mmc->cid[3] >> 24) & 0xff);
+	sn[4] = 0;
+	setenv("ch_serial_number", sn);
+	/* ChenHan Patch End */
+
 	printf("Tran Speed: %d\n", mmc->tran_speed);
 	printf("Rd Block Len: %d\n", mmc->read_bl_len);
 
