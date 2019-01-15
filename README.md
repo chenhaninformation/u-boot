@@ -171,7 +171,8 @@ in current direcotry that contains all files use to compile the U-boot.
 default finding path /usr/bin, you can verify it by type:
 **which aarch64-linux-gnu-gcc** to see if we successfully change the default
 compiler to what we need.
-**Note 2**: Step 3, we have a **make \*\_defconfig**, , you should not use it,
+
+**Note 2**: Step 3, we have a **make \*\_defconfig**, you should not use it,
 but use those instead:
 ```
 # This config will set the default fdt_name to
