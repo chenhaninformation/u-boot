@@ -56,6 +56,19 @@ can solve the problem**.
 and gcc-5.5. The original gcc-5 was never tested. Tested compiler can be find
 [here][Build From Source - Toolchain].
 
+ChenHan Specific Environment Variables
+--------------------------------------
+* ch\_serial\_number: Serial Number of each board, default 01234567, you can
+update it by input either "mmc dev 0" to get serial number of SD card as board
+serial number,or "mmc dev 1" to get serial number of eMMC card as board serial
+number.
+* ch\_reset\_button\_pressed: Reset button state when boot up, default 0, if
+reset button is depressed when bootup, this variable will be 1.
+* ch\_reboot\_button\_pressed: Reboot button state when boot up, default 0, if
+reboot button is depressed when bootup, this variable will be 1.
+* ch\_bootcmd\_\*: ChenHan boot command variables, use this to alter default
+boot flow.
+
 Alter boot flow
 ---------------
 
