@@ -18,7 +18,6 @@
 /* additions for new ARM relocation support */
 #define CONFIG_SYS_SDRAM_BASE	0x00000000
 
-
 /* auto boot */
 #define CONFIG_PREBOOT
 
@@ -102,8 +101,8 @@
 				"booti $kernel_addr $ramfs_addr $fdt_addr"
 #endif
 
-#define CONFIG_BOOTCOMMAND	"run ch_check_serial_number; "
-				"run ch_check_reset; "
+#define CONFIG_BOOTCOMMAND	"run ch_check_serial_number; "		\
+				"run ch_check_reset; "			\
 				"run ch_distro_bootcmd"
 
 #define CONFIG_ENV_OVERWRITE	/* ethaddr can be reprogrammed */
