@@ -86,6 +86,13 @@ config MVEBU_SPINAND_BOOT
 
 endchoice
 
+config MEMORY_SIZE
+	string "Board DDR memory size"
+	default "512m"
+	help
+	  This option use to specify the DDR memory size, should be one
+	  of: 512m, 1g, 2g.
+
 config MVEBU_UBOOT_DFLT_NAME
 	string "Default image name for bubt command"
 	default "flash-image.bin"

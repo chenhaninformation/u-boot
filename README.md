@@ -167,10 +167,31 @@ in current direcotry that contains all files use to compile the U-boot.
 3. make mvebu_espressobin-88f3720_defconfig
 4. make DEVICE_TREE=armada-3720-espressobin
 ```
-**Note**: Put the $PATH at the end of the sentence, make sure we cover the
+**Note 1**: Put the $PATH at the end of the sentence, make sure we cover the
 default finding path /usr/bin, you can verify it by type:
 **which aarch64-linux-gnu-gcc** to see if we successfully change the default
 compiler to what we need.
+**Note 2**: Step 3, we have a **make \*\_defconfig**, , you should not use it,
+but use those instead:
+```
+# This config will set the default fdt_name to
+# armada-3720-espressobin-512m.dtb, and the final U-boot image is boot from
+# SPI
+make espressobin_512m_spi_defconfig
+
+# This config will set the default fdt_name to armada-3720-espressobin-2g.dtb,
+# and the final U-boot image is boot from eMMC
+make espressobin_2g_mmc_defconfig
+```
+You should use one of the six different defconfig files, are shown below:
+```
+espressobin_512m_spi_defconfig
+espressobin_512m_mmc_defconfig
+espressobin_1g_spi_defconfig
+espressobin_1g_mmc_defconfig
+espressobin_2g_spi_defconfig
+espressobin_2g_mmc_defconfig
+```
 
 Then you will see a **u-boot.bin** came out at the top directory of U-boot.
 Any fether reading of how to compile the U-boot of ESPRESSObin board, please

@@ -21,6 +21,12 @@
 /* auto boot */
 #define CONFIG_PREBOOT
 
+/* Memory size, should define by defconfig file */
+#ifndef CONFIG_MEMORY_SIZE
+#define CONFIG_MEMORY_SIZE "512m"
+#endif
+
+
 #define CONFIG_BAUDRATE			115200
 #define CONFIG_SYS_BAUDRATE_TABLE	{ 9600, 19200, 38400, 57600, \
 					  115200, 230400, 460800, 921600 }
@@ -68,6 +74,9 @@
 						":$netdev:none nfsroot="\
 						"$serverip:$rootpath " \
 						"$extra_params\0"	\
+"ch_memory_size="CONFIG_MEMORY_SIZE"\0"					\
+"ch_image_name=boot/Image\n"						\
+"ch_fdt_name=boot/armada-3720-espressobin-"CONFIG_MEMORY_SIZE".dtb\0"	\
 "ch_serial_number=01234567\0"						\
 "ch_reset_button_pressed=0\0"						\
 "ch_reboot_button_pressed=0\0"						\
@@ -80,17 +89,17 @@
 	"if test $ch_reboot_button_pressed=1; "				\
 	"then run ch_bootcmd_rescue; fi; \0"				\
 "ch_bootcmd_normal=mmc dev 1; ext4load mmc 1:2 $kernel_addr "		\
-	"$image_name; ext4load mmc 1:2 $fdt_addr $fdt_name; setenv "	\
-	"bootargs $console ch_need_reset=$ch_need_reset "		\
+	"$ch_image_name; ext4load mmc 1:2 $fdt_addr $ch_fdt_name; "	\
+	"setenv bootargs $console ch_need_reset=$ch_need_reset "	\
 	"root=/dev/mmcblk0p2 rw rootwait; booti $kernel_addr - "	\
 	"$fdt_addr\0"							\
 "ch_bootcmd_rescue=mmc dev 1; ext4load mmc 1:1 $kernel_addr "		\
-	"$image_name; ext4load mmc 1:1 $fdt_addr $fdt_name; setenv "	\
-	"bootargs $console root=/dev/mmcblk0p1 rw rootwait; booti "	\
-	"$kernel_addr - $fdt_addr\0"					\
+	"$ch_image_name; ext4load mmc 1:1 $fdt_addr $_chfdt_name; "	\
+	"setenv bootargs $console root=/dev/mmcblk0p1 rw rootwait; "	\
+	"booti $kernel_addr - $fdt_addr\0"				\
 "ch_bootcmd_usb_fat=usb start; fatload usb 0:1 $kernel_addr "		\
-	"$image_name; fatload usb 0:1 $fdt_addr $fdt_name; setenv "	\
-	"botargs $console root=/dev/sda1 rw rootwait; booti "		\
+	"$ch_image_name; fatload usb 0:1 $fdt_addr $ch_fdt_name; "	\
+	"setenv botargs $console root=/dev/sda1 rw rootwait; booti "	\
 	"$kernel_addr - $fdt_addr\0"					\
 "ch_bootcmd_net_tftp=gpio input GPIO25\0"				\
 "ch_boot_flows=normal rescue usb_fat net_tftp\0"			\
