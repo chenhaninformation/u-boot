@@ -31,6 +31,17 @@
 #define CONFIG_SYS_BAUDRATE_TABLE	{ 9600, 19200, 38400, 57600, \
 					  115200, 230400, 460800, 921600 }
 
+/* Boot from SPI NOR flash, no eMMC on board, find rootfs from SD */
+#if defined(CONFIG_MVEBU_SPI_BOOT)
+#define CH_MMC_DEV_NUM 0
+/* Boot from eMMC, find rootfs from eMMC */
+#elif defined(CONFIG_MVEBU_MMC_BOOT)
+#define CH_MMC_DEV_NUM 1
+/* Default have eMMC */
+#else
+#define CH_MMC_DEV_NUM 1
+#endif
+
 /* Default Env vars */
 #define CONFIG_IPADDR			0.0.0.0	/* In order to cause an error */
 #define CONFIG_SERVERIP			0.0.0.0	/* In order to cause an error */
@@ -81,26 +92,23 @@
 "ch_reset_button_pressed=0\0"						\
 "ch_reboot_button_pressed=0\0"						\
 "ch_need_reset=0\0"							\
-"ch_check_serial_number=mmc dev 0; mmc info; mmc dev 1; mmc info; "	\
+"ch_check_serial_number=mmc dev CH_MMC_DEV_NUM; mmc info; "		\
 	"saveenv\0"							\
 "ch_check_button=gpio input GPIO25; gpio input GPIO15; "		\
 	"if test $ch_reset_button_pressed=1; "				\
 	"then run ch_bootcmd_usb_fat; fi; "				\
 	"if test $ch_reboot_button_pressed=1; "				\
 	"then run ch_bootcmd_rescue; fi; \0"				\
-"ch_bootcmd_normal=mmc dev 1; ext4load mmc 1:2 $kernel_addr "		\
-	"$ch_image_name; ext4load mmc 1:2 $fdt_addr $ch_fdt_name; "	\
-	"setenv bootargs $console ch_need_reset=$ch_need_reset "	\
-	"root=/dev/mmcblk0p2 rw rootwait; booti $kernel_addr - "	\
-	"$fdt_addr\0"							\
-"ch_bootcmd_rescue=mmc dev 1; ext4load mmc 1:1 $kernel_addr "		\
-	"$ch_image_name; ext4load mmc 1:1 $fdt_addr $_chfdt_name; "	\
-	"setenv bootargs $console root=/dev/mmcblk0p1 rw rootwait; "	\
-	"booti $kernel_addr - $fdt_addr\0"				\
-"ch_bootcmd_usb_fat=usb start; fatload usb 0:1 $kernel_addr "		\
-	"$ch_image_name; fatload usb 0:1 $fdt_addr $ch_fdt_name; "	\
-	"setenv botargs $console root=/dev/sda1 rw rootwait; booti "	\
-	"$kernel_addr - $fdt_addr\0"					\
+"ch_bootcmd_normal=mmc dev CH_MMC_DEV_NUM ext4load mmc "		\
+	"CH_MMC_DEV_NUM:2 $kernel_addr $ch_image_name; ext4load mmc "	\
+	"CH_MMC_DEV_NUM:2 $fdt_addr $ch_fdt_name; setenv bootargs "	\
+	"$console ch_need_reset=$ch_need_reset root=/dev/mmcblk0p2 "	\
+	"rw rootwait; booti $kernel_addr - $fdt_addr\0"			\
+"ch_bootcmd_rescue=mmc dev CH_MMC_DEV_NUM; ext4load mmc "		\
+	"CH_MMC_DEV_NUM:1 $kernel_addr $ch_image_name; ext4load mmc "	\
+	"CH_MMC_DEV_NUM:1 $fdt_addr $_chfdt_name; setenv bootargs "	\
+	"$console root=/dev/mmcblk0p1 rw rootwait; booti $kernel_addr "	\
+	" - $fdt_addr\0"						\
 "ch_bootcmd_net_tftp=gpio input GPIO25\0"				\
 "ch_boot_flows=normal rescue usb_fat net_tftp\0"			\
 "ch_distro_bootcmd=for flow in ${ch_boot_flows}; do run "		\
