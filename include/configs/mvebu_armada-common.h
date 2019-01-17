@@ -33,13 +33,13 @@
 
 /* Boot from SPI NOR flash, no eMMC on board, find rootfs from SD */
 #if defined(CONFIG_MVEBU_SPI_BOOT)
-#define CH_MMC_DEV_NUM 0
+#define CH_MMC_DEV_NUM "0"
 /* Boot from eMMC, find rootfs from eMMC */
 #elif defined(CONFIG_MVEBU_MMC_BOOT)
-#define CH_MMC_DEV_NUM 1
+#define CH_MMC_DEV_NUM "1"
 /* Default have eMMC */
 #else
-#define CH_MMC_DEV_NUM 1
+#define CH_MMC_DEV_NUM "1"
 #endif
 
 /* Default Env vars */
@@ -99,14 +99,14 @@
 	"then run ch_bootcmd_usb_fat; fi; "				\
 	"if test $ch_reboot_button_pressed=1; "				\
 	"then run ch_bootcmd_rescue; fi; \0"				\
-"ch_bootcmd_normal=mmc dev CH_MMC_DEV_NUM ext4load mmc "		\
-	"CH_MMC_DEV_NUM:2 $kernel_addr $ch_image_name; ext4load mmc "	\
-	"CH_MMC_DEV_NUM:2 $fdt_addr $ch_fdt_name; setenv bootargs "	\
+"ch_bootcmd_normal=mmc dev " CH_MMC_DEV_NUM "; ext4load mmc "		\
+	CH_MMC_DEV_NUM ":2 $kernel_addr $ch_image_name; ext4load mmc "	\
+	CH_MMC_DEV_NUM ":2 $fdt_addr $ch_fdt_name; setenv bootargs "	\
 	"$console ch_need_reset=$ch_need_reset root=/dev/mmcblk0p2 "	\
 	"rw rootwait; booti $kernel_addr - $fdt_addr\0"			\
-"ch_bootcmd_rescue=mmc dev CH_MMC_DEV_NUM; ext4load mmc "		\
-	"CH_MMC_DEV_NUM:1 $kernel_addr $ch_image_name; ext4load mmc "	\
-	"CH_MMC_DEV_NUM:1 $fdt_addr $_chfdt_name; setenv bootargs "	\
+"ch_bootcmd_rescue=mmc dev " CH_MMC_DEV_NUM "; ext4load mmc "		\
+	CH_MMC_DEV_NUM ":1 $kernel_addr $ch_image_name; ext4load mmc "	\
+	CH_MMC_DEV_NUM ":1 $fdt_addr $_chfdt_name; setenv bootargs "	\
 	"$console root=/dev/mmcblk0p1 rw rootwait; booti $kernel_addr "	\
 	" - $fdt_addr\0"						\
 "ch_bootcmd_net_tftp=gpio input GPIO25\0"				\
