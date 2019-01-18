@@ -55,11 +55,11 @@ static void print_mmcinfo(struct mmc *mmc)
 	 * Although we have to mark this as FIXME, but the chance is too
 	 * small, so we decide not to fix this for now.
 	 * */
-	char sn[5];
+	char sn[9];
 	sprintf(sn, "%x%x%x%x", (mmc->cid[2] >> 16) & 0xff,
 			(mmc->cid[2] >> 8) & 0xff, mmc->cid[2] & 0xff,
 			(mmc->cid[3] >> 24) & 0xff);
-	sn[4] = 0;
+	sn[8] = 0;
 	setenv("ch_serial_number", sn);
 	/* ChenHan Patch End */
 
