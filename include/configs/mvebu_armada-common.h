@@ -92,8 +92,7 @@
 "ch_reset_button_pressed=0\0"						\
 "ch_reboot_button_pressed=0\0"						\
 "ch_need_reset=0\0"							\
-"ch_check_serial_number=mmc dev CH_MMC_DEV_NUM; mmc info; "		\
-	"saveenv\0"							\
+"ch_check_serial_number=mmc dev " CH_MMC_DEV_NUM "; mmc info;\0"	\
 "ch_check_button=gpio input GPIO25; gpio input GPIO15; "		\
 	"if test $ch_reset_button_pressed=1; "				\
 	"then run ch_bootcmd_usb_fat; fi; "				\

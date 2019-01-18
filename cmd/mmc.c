@@ -60,7 +60,11 @@ static void print_mmcinfo(struct mmc *mmc)
 			(mmc->cid[2] >> 8) & 0xff, mmc->cid[2] & 0xff,
 			(mmc->cid[3] >> 24) & 0xff);
 	sn[8] = 0;
-	setenv("ch_serial_number", sn);
+	if ( 0 != strcmp(sn, getenv("ch_serial_number")) ) {
+		/* Only set and save env when the serial number is unmatch */
+		setenv("ch_serial_number", sn);
+		saveenv();
+	}
 	/* ChenHan Patch End */
 
 	printf("Tran Speed: %d\n", mmc->tran_speed);
