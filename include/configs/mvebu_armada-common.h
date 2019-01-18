@@ -106,7 +106,7 @@
 	"rw rootwait; booti $kernel_addr - $fdt_addr\0"			\
 "ch_bootcmd_rescue=mmc dev " CH_MMC_DEV_NUM "; ext4load mmc "		\
 	CH_MMC_DEV_NUM ":1 $kernel_addr $ch_image_name; ext4load mmc "	\
-	CH_MMC_DEV_NUM ":1 $fdt_addr $_chfdt_name; setenv bootargs "	\
+	CH_MMC_DEV_NUM ":1 $fdt_addr $ch_fdt_name; setenv bootargs "	\
 	"$console root=/dev/mmcblk0p1 rw rootwait; booti $kernel_addr "	\
 	" - $fdt_addr\0"						\
 "ch_bootcmd_net_tftp=gpio input GPIO25\0"				\
@@ -119,7 +119,7 @@
 #endif
 
 #define CONFIG_BOOTCOMMAND	"run ch_check_serial_number; "		\
-				"run ch_check_reset; "			\
+				"run ch_check_button; "			\
 				"run ch_distro_bootcmd"
 
 #define CONFIG_ENV_OVERWRITE	/* ethaddr can be reprogrammed */
