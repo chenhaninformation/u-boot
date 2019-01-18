@@ -86,7 +86,7 @@
 						"$serverip:$rootpath " \
 						"$extra_params\0"	\
 "ch_memory_size="CONFIG_MEMORY_SIZE"\0"					\
-"ch_image_name=boot/Image\n"						\
+"ch_image_name=boot/Image\0"						\
 "ch_fdt_name=boot/armada-3720-espressobin-"CONFIG_MEMORY_SIZE".dtb\0"	\
 "ch_serial_number=01234567\0"						\
 "ch_reset_button_pressed=0\0"						\
