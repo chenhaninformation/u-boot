@@ -34,12 +34,15 @@
 /* Boot from SPI NOR flash, no eMMC on board, find rootfs from SD */
 #if defined(CONFIG_MVEBU_SPI_BOOT)
 #define CH_MMC_DEV_NUM "0"
+#define CH_FDT_SUFFIX "-non-emmc"
 /* Boot from eMMC, find rootfs from eMMC */
 #elif defined(CONFIG_MVEBU_MMC_BOOT)
 #define CH_MMC_DEV_NUM "1"
+#define CH_FDT_SUFFIX "-emmc"
 /* Default have eMMC */
 #else
 #define CH_MMC_DEV_NUM "1"
+#define CH_FDT_SUFFIX "-emmc"
 #endif
 
 /* Default Env vars */
@@ -87,7 +90,8 @@
 						"$extra_params\0"	\
 "ch_memory_size="CONFIG_MEMORY_SIZE"\0"					\
 "ch_image_name=boot/Image\0"						\
-"ch_fdt_name=boot/armada-3720-espressobin-"CONFIG_MEMORY_SIZE".dtb\0"	\
+"ch_fdt_name=boot/armada-3720-espressobin-"CONFIG_MEMORY_SIZE		\
+	CONFIG_FDT_SUFFIX ".dtb\0"					\
 "ch_serial_number=ffffffff\0"						\
 "ch_reset_button_pressed=0\0"						\
 "ch_reboot_button_pressed=0\0"						\
@@ -108,6 +112,10 @@
 	CH_MMC_DEV_NUM ":1 $fdt_addr $ch_fdt_name; setenv bootargs "	\
 	"$console root=/dev/mmcblk0p1 rw rootwait; booti $kernel_addr "	\
 	" - $fdt_addr\0"						\
+"ch_bootcmd_usb_fat=usb start;fatload usb 0:1 $kernel_addr "		\
+	"$ch_image_name;fatload usb 0:1 $fdt_addr $ch_fdt_name; "	\
+	"setenv bootargs $console root=/dev/sda1 rw rootwait; booti "	\
+	"$kernel_addr - $fdt_add\0"					\
 "ch_bootcmd_net_tftp=gpio input GPIO25\0"				\
 "ch_boot_flows=normal rescue usb_fat net_tftp\0"			\
 "ch_distro_bootcmd=for flow in ${ch_boot_flows}; do run "		\
