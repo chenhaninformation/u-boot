@@ -98,9 +98,9 @@
 "ch_need_reset=0\0"							\
 "ch_check_serial_number=mmc dev " CH_MMC_DEV_NUM "; mmc info;\0"	\
 "ch_check_button=gpio input GPIO25; gpio input GPIO15; "		\
-	"if test $ch_reset_button_pressed=1; "				\
+	"if test ${ch_reset_button_pressed} -eq 1; "			\
 	"then run ch_bootcmd_usb_fat; fi; "				\
-	"if test $ch_reboot_button_pressed=1; "				\
+	"if test ${ch_reboot_button_pressed} -eq 1; "			\
 	"then run ch_bootcmd_rescue; fi; \0"				\
 "ch_bootcmd_normal=mmc dev " CH_MMC_DEV_NUM "; ext4load mmc "		\
 	CH_MMC_DEV_NUM ":2 $kernel_addr $ch_image_name; ext4load mmc "	\
@@ -114,7 +114,7 @@
 	" - $fdt_addr\0"						\
 "ch_bootcmd_usb_fat=usb start;fatload usb 0:1 $kernel_addr "		\
 	"$ch_image_name;fatload usb 0:1 $fdt_addr $ch_fdt_name; "	\
-	"setenv bootargs $console root=/dev/sda1 rw rootwait; booti "	\
+	"setenv bootargs $console root=/dev/ram0 rw rootwait; booti "	\
 	"$kernel_addr - $fdt_add\0"					\
 "ch_bootcmd_net_tftp=gpio input GPIO25\0"				\
 "ch_boot_flows=normal rescue usb_fat net_tftp\0"			\
