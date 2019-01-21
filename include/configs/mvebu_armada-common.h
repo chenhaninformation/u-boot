@@ -88,9 +88,9 @@
 						":$netdev:none nfsroot="\
 						"$serverip:$rootpath " \
 						"$extra_params\0"	\
-"ch_memory_size="CONFIG_MEMORY_SIZE"\0"					\
+"ch_memory_size=" CONFIG_MEMORY_SIZE "\0"				\
 "ch_image_name=boot/Image\0"						\
-"ch_fdt_name=boot/armada-3720-espressobin-"CONFIG_MEMORY_SIZE		\
+"ch_fdt_name=boot/armada-3720-espressobin-" CONFIG_MEMORY_SIZE		\
 	CONFIG_FDT_SUFFIX ".dtb\0"					\
 "ch_serial_number=ffffffff\0"						\
 "ch_reset_button_pressed=0\0"						\
