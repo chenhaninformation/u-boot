@@ -112,10 +112,10 @@
 	CH_MMC_DEV_NUM ":1 $fdt_addr $ch_fdt_name; setenv bootargs "	\
 	"$console root=/dev/mmcblk0p1 rw rootwait; booti $kernel_addr "	\
 	" - $fdt_addr\0"						\
-"ch_bootcmd_usb_ext4=usb start;ext4load usb 0:1 $kernel_addr "		\
-	"$ch_image_name;ext4load usb 0:1 $fdt_addr $ch_fdt_name; "	\
-	"setenv bootargs $console root=/dev/sda1 rw rootwait; booti "	\
-	"$kernel_addr - $fdt_add\0"					\
+"ch_bootcmd_usb_ext4=usb start; ext4load usb 0:1 ${kernel_addr} "	\
+	"${ch_image_name}; ext4load usb 0:1 ${fdt_addr} "		\
+	"${ch_fdt_name}; setenv bootargs ${console} root=/dev/sda1 rw "	\
+	"rootwait; booti ${kernel_addr} - ${fdt_add};\0"		\
 "ch_bootcmd_net_tftp=gpio input GPIO25\0"				\
 "ch_boot_flows=normal rescue usb_ext4 net_tftp\0"			\
 "ch_distro_bootcmd=for flow in ${ch_boot_flows}; do run "		\
