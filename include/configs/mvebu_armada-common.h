@@ -107,17 +107,19 @@
 	"ext4load mmc " CH_MMC_DEV_NUM ":2 ${fdt_addr} "		\
 	"${ch_fdt_name}; setenv bootargs $console "			\
 	"ch_need_reset=${ch_need_reset} root=/dev/mmcblk0p2 rw "	\
-	"rootwait; booti ${kernel_addr} - ${fdt_addr};\0"		\
+	"rootwait; echo [NOTE]: Booting from mmc part 2 ...; booti "	\
+	"${kernel_addr} - ${fdt_addr};\0"				\
 "ch_bootcmd_rescue=mmc dev " CH_MMC_DEV_NUM "; ext4load mmc "		\
 	CH_MMC_DEV_NUM ":1 ${kernel_addr} ${ch_image_name}; "		\
 	"ext4load mmc "	CH_MMC_DEV_NUM ":1 ${fdt_addr} "		\
 	"${ch_fdt_name}; setenv bootargs $console "			\
-	"root=/dev/mmcblk0p1 rw rootwait; booti ${kernel_addr}  - "	\
-	"${fdt_addr};\0"						\
+	"root=/dev/mmcblk0p1 rw rootwait; echo [NOTE]: Booting from "	\
+	"mmc part 1 ...; booti ${kernel_addr}  - ${fdt_addr};\0"	\
 "ch_bootcmd_usb_ext4=usb start; ext4load usb 0:1 ${kernel_addr} "	\
 	"${ch_image_name}; ext4load usb 0:1 ${fdt_addr} "		\
 	"${ch_fdt_name}; setenv bootargs ${console} root=/dev/sda1 rw "	\
-	"rootwait; booti ${kernel_addr} - ${fdt_addr};\0"		\
+	"rootwait; echo [NOTE]: Booting from usb part 1 ...; booti "	\
+	"${kernel_addr} - ${fdt_addr};\0"				\
 "ch_bootcmd_net_tftp=gpio input GPIO25\0"				\
 "ch_boot_flows=normal rescue usb_ext4 net_tftp\0"			\
 "ch_distro_bootcmd=for flow in ${ch_boot_flows}; do run "		\
